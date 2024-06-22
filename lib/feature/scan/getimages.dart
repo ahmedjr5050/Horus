@@ -1,4 +1,8 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
 import 'package:apps/core/helper/extention.dart';
+import 'package:apps/feature/scan/qr/web_preview.dart';
+import 'package:barcode_scan2/gen/protos/protos.pbenum.dart';
+import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -6,7 +10,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'manage/cubit/cubit/detectimages_cubit.dart';
-
 
 class ImagePickerDemo extends StatefulWidget {
   const ImagePickerDemo({super.key});
@@ -44,6 +47,30 @@ class _ImagePickerDemoState extends State<ImagePickerDemo> {
     final bytes = await image.readAsBytes();
     final base64String = base64Encode(bytes);
     context.read<DetectimagesCubit>().getimagesai(base64String);
+  }
+
+  Future<void> scanBarcode() async {
+    var result = await BarcodeScanner.scan();
+
+    if (result.type == ResultType.Barcode) {
+      String url = result.rawContent;
+      if (url.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WebViewPage(url: url),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Invalid barcode content')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Scan canceled or failed')),
+      );
+    }
   }
 
   @override
@@ -154,6 +181,22 @@ class _ImagePickerDemoState extends State<ImagePickerDemo> {
                     ),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10), // لون النص
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    scanBarcode();
+                  },
+                  icon: const Icon(Icons.qr_code_scanner),
+                  label: const Text('Scan QR Code'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                   ),
                 ),
                 const SizedBox(height: 20),

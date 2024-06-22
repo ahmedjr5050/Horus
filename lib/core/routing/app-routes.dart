@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, unused_local_variable
 
 import 'package:apps/core/routing/routes.dart';
+import 'package:apps/feature/scan/qr/qr_scranner.dart';
+import 'package:apps/feature/scan/qr/web_preview.dart';
 import 'package:flutter/material.dart';
 
 import '../../feature/Details/persentation/deatils_view.dart';
@@ -17,7 +19,6 @@ import '../../feature/splash/splash_screen.dart';
 import '../../feature/tourism_type/presentation/toursim_type_view.dart';
 import '../../location.dart';
 
-
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
     //this arguments is used to pass data from one screen to another
@@ -25,8 +26,7 @@ class AppRouter {
     switch (settings.name) {
       case Routes.onBoardingScreen:
         return MaterialPageRoute(
-          builder: (_) => const OnBoard(
-          ),
+          builder: (_) => const OnBoard(),
         );
       case Routes.loginScreen:
         return MaterialPageRoute(
@@ -46,11 +46,11 @@ class AppRouter {
         );
       case Routes.imagePickerDemo:
         return MaterialPageRoute(
-          builder: (_) =>  const ImagePickerDemo(),
+          builder: (_) => const ImagePickerDemo(),
         );
       case Routes.detailsView:
         return MaterialPageRoute(
-          builder: (_) =>  const DetailsView(
+          builder: (_) => const DetailsView(
             '',
           ),
         );
@@ -58,6 +58,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const DetectView(),
         );
+      // case Routes.qrScreen:
+      //   return MaterialPageRoute(
+      //     builder: (_) => const Qr(),
+      //   );
+     
       case Routes.closestPlacesView:
         return MaterialPageRoute(
           builder: (_) => const ClosesPLaces(),
@@ -68,7 +73,7 @@ class AppRouter {
         );
       case Routes.forgetPassword:
         return MaterialPageRoute(
-          builder: (_) =>  Forget(),
+          builder: (_) => Forget(),
         );
       case Routes.chatScreen:
         return MaterialPageRoute(

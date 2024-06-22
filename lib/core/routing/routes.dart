@@ -13,4 +13,6 @@ class Routes {
   static const String chatScreen = '/chatScreen';
  static const String locationScreen = '/locationScreen';
  static const String mapscreen='/mapscreen';
+ static const String qrScreen='/Qr';
+ static const String webViewPage='/WebViewPage';
 }

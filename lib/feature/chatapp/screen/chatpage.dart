@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields, prefer_const_declarations
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -28,7 +30,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             //get max height
             height: MediaQuery.of(context).size.height - 160,
             child: ListView.builder(
@@ -40,7 +42,7 @@ class _ChatPageState extends State<ChatPage> {
               itemBuilder: (context, index) {
                 return Container(
                   padding:
-                      EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+                      const EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
                   child: Align(
                     alignment: (_chatHistory[index]["isSender"]
                         ? Alignment.topRight
@@ -57,10 +59,10 @@ class _ChatPageState extends State<ChatPage> {
                           ),
                         ],
                         color: (_chatHistory[index]["isSender"]
-                            ? Color(0xFFF69170)
+                            ? const Color(0xFFF69170)
                             : Colors.white),
                       ),
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: Text(_chatHistory[index]["message"],
                           style: TextStyle(
                               fontSize: 15,
