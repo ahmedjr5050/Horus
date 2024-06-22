@@ -10,7 +10,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../core/routing/routes.dart';
 import '../signup/signup_screen.dart';
-import 'manager/auth/authapp.dart';
+import '../../core/helper/auth/authapp.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

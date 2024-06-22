@@ -1,18 +1,17 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:apps/core/helper/extention.dart';
+import 'package:apps/core/helper/auth/authapp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../core/routing/routes.dart';
-import '../signin/manager/auth/authapp.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
+
 class _SignUpScreenState extends State<SignUpScreen> {
   FirebaseAuthService auth = FirebaseAuthService();
   TextEditingController emailcontroller = TextEditingController();
@@ -39,15 +38,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 50,
-            ),
+            const SizedBox(height: 50),
             Stack(
               children: [
                 // login & Sign up
                 ElevatedButton(
                   onPressed: () {
-                context.pushNamed(Routes.loginScreen);
+                    context.pushNamed(Routes.loginScreen);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -68,8 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding: const EdgeInsets.only(left: 70.0),
                   child: ElevatedButton(
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xffdbc596),
                     ),
@@ -89,153 +85,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 35,
-            ),
-            SizedBox(
-              height: MediaQuery.devicePixelRatioOf(context) / 2 * 20,
-            ),
-            SizedBox(
-              width: 350.0,
-              height: 50.0,
-              child: TextFormField(
-                controller: name,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.px),
-                    ),
-                  ),
-                  hintText: 'Enter First Name',
-                  filled: true,
-                  contentPadding: const EdgeInsets.all(16.0),
-                  hintStyle: const TextStyle(
-                      color: Color(0x4D000000),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Capriola'),
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.px,
-            ),
-            SizedBox(
-              width: 350.0,
-              height: 50.0,
-              child: TextFormField(
-                controller: lastname,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(16.0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.px),
-                    ),
-                  ),
-                  hintText: 'Enter Last Name',
-                  filled: true,
-                  hintStyle: const TextStyle(
-                      color: Color(0x4D000000),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Capriola'),
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.px,
-            ),
-            SizedBox(
-              width: 350.0,
-              height: 50.0,
-              child: TextFormField(
-                controller: emailcontroller,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.px),
-                    ),
-                  ),
-                  hintText: 'Enter Email ',
-                  contentPadding: const EdgeInsets.all(16.0),
-                  filled: true,
-                  hintStyle: const TextStyle(
-                      color: Color(0x4D000000),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Capriola'),
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.px,
-            ),
-            SizedBox(
-              width: 350.0,
-              height: 50.0,
-              child: TextFormField(
-                controller: password,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(16.0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.px),
-                    ),
-                  ),
-                  hintText: 'Enter Password',
-                  filled: true,
-                  hintStyle: const TextStyle(
-                      color: Color(0x4D000000),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Capriola'),
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.px,
-            ),
-            SizedBox(
-              width: 350.0,
-              height: 50.0,
-              child: TextFormField(
-                controller: phone,
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.px),
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.all(16.0),
-                  hintText: 'Enter Phone Number',
-                  filled: true,
-                  hintStyle: const TextStyle(
-                      color: Color(0x4D000000),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Capriola'),
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 50,
-            ),
+            const SizedBox(height: 35),
+            SizedBox(height: MediaQuery.devicePixelRatioOf(context) / 2 * 20),
+            _buildTextFormField(name, 'Enter First Name'),
+            SizedBox(height: 10.px),
+            _buildTextFormField(lastname, 'Enter Last Name'),
+            SizedBox(height: 10.px),
+            _buildTextFormField(emailcontroller, 'Enter Email'),
+            SizedBox(height: 10.px),
+            _buildTextFormField(password, 'Enter Password'),
+            SizedBox(height: 10.px),
+            _buildTextFormField(phone, 'Enter Phone Number',
+                keyboardType: TextInputType.phone),
+            const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 signup(context);
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffdbc596),
-                  fixedSize: const Size(300, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  )),
+                backgroundColor: const Color(0xffdbc596),
+                fixedSize: const Size(300, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
               child: const Text(
                 'Sign Up',
                 style: TextStyle(
@@ -246,9 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 50,
-            ),
+            const SizedBox(height: 50),
             const Text(
               'OR',
               style: TextStyle(
@@ -258,9 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 fontFamily: 'Koh',
               ),
             ),
-            const SizedBox(
-              height: 50,
-            ),
+            const SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -275,27 +144,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  Widget _buildTextFormField(TextEditingController controller, String hintText,
+      {TextInputType keyboardType = TextInputType.text}) {
+    return SizedBox(
+      width: 350.0,
+      height: 50.0,
+      child: TextFormField(
+        controller: controller,
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.px),
+            ),
+          ),
+          hintText: hintText,
+          contentPadding: const EdgeInsets.all(16.0),
+          filled: true,
+          hintStyle: const TextStyle(
+            color: Color(0x4D000000),
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            fontFamily: 'Capriola',
+          ),
+          fillColor: Colors.white,
+        ),
+      ),
+    );
+  }
+
   void signup(BuildContext context) async {
     String email = emailcontroller.text;
     String password = this.password.text;
-    String name = this.name.text;
-    String lastname = this.lastname.text;
+    String firstName = name.text;
+    String lastName = this.lastname.text;
     String phone = this.phone.text;
 
-    User? user = await auth.signup(email, password, name, lastname, phone);
+    User? user = await auth.signup(email, password, firstName, lastName, phone);
     if (user != null) {
-     context.pushReplacementNamed(Routes.homeScreen);
+      context.pushReplacementNamed(Routes.homeScreen);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-        'Login Failed',
-        style: TextStyle(
-          color: Color.fromARGB(255, 231, 113, 92),
-          fontSize: 18.0,
-          fontFamily: 'BalsamiqSans',
-          fontWeight: FontWeight.w700,
+        content: Text(
+          'Signup Failed',
+          style: TextStyle(
+            color: Color.fromARGB(255, 231, 113, 92),
+            fontSize: 18.0,
+            fontFamily: 'BalsamiqSans',
+            fontWeight: FontWeight.w700,
+          ),
         ),
-      )));
+      ));
     }
   }
 }
