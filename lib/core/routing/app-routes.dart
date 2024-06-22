@@ -1,10 +1,6 @@
 // ignore_for_file: file_names, unused_local_variable
-
 import 'package:apps/core/routing/routes.dart';
-import 'package:apps/feature/scan/qr/qr_scranner.dart';
-import 'package:apps/feature/scan/qr/web_preview.dart';
 import 'package:flutter/material.dart';
-
 import '../../feature/Details/persentation/deatils_view.dart';
 import '../../feature/chatapp/screen/chatpage.dart';
 import '../../feature/closest_places/presentation/closest_places_view.dart';
@@ -58,11 +54,6 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const DetectView(),
         );
-      // case Routes.qrScreen:
-      //   return MaterialPageRoute(
-      //     builder: (_) => const Qr(),
-      //   );
-     
       case Routes.closestPlacesView:
         return MaterialPageRoute(
           builder: (_) => const ClosesPLaces(),
