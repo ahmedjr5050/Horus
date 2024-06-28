@@ -1,5 +1,7 @@
 // ignore_for_file: file_names, unused_local_variable
 import 'package:apps/core/routing/routes.dart';
+import 'package:apps/feature/home/driver/screendriver.dart';
+import 'package:apps/feature/home/profile/profilee_screen.dart';
 import 'package:flutter/material.dart';
 import '../../feature/Details/persentation/deatils_view.dart';
 import '../../feature/chatapp/screen/chatpage.dart';
@@ -11,7 +13,6 @@ import '../../feature/scan/getimages.dart';
 import '../../feature/signin/forget/passwordforget.dart';
 import '../../feature/signin/login_screen.dart';
 import '../../feature/signup/signup_screen.dart';
-import '../../feature/splash/splash_screen.dart';
 import '../../feature/tourism_type/presentation/toursim_type_view.dart';
 import '../../location.dart';
 
@@ -28,6 +29,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
         );
+      case Routes.driverScreen:
+        return MaterialPageRoute(
+          builder: (_) => const Driver(),
+        );
       case Routes.signUpScreen:
         return MaterialPageRoute(
           builder: (_) => const SignUpScreen(),
@@ -36,10 +41,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const HomeScreen(),
         );
-      case Routes.splashScreen:
-        return MaterialPageRoute(
-          builder: (_) => const SplashScreen(),
-        );
+      // case Routes.splashScreen:
+      //   return MaterialPageRoute(
+      //     builder: (_) => const SplashScreen(),
+      //   );
       case Routes.imagePickerDemo:
         return MaterialPageRoute(
           builder: (_) => const ImagePickerDemo(),
@@ -53,6 +58,10 @@ class AppRouter {
       case Routes.detectView:
         return MaterialPageRoute(
           builder: (_) => const DetectView(),
+        );
+      case Routes.profileeScreen:
+        return MaterialPageRoute(
+          builder: (_) => ProfileScreen(),
         );
       case Routes.closestPlacesView:
         return MaterialPageRoute(

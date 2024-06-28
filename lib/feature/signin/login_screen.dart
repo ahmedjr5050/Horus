@@ -209,12 +209,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Image.asset('lib/core/assets/images/fb.png'),
         GestureDetector(
           onTap: () => _signInWithGoogle(context),
           child: Image.asset('lib/core/assets/images/google.png'),
         ),
-        Image.asset('lib/core/assets/images/insta.png'),
       ],
     );
   }

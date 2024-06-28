@@ -170,20 +170,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Image.asset('lib/core/assets/images/car.png'),
-                                const Spacer(),
-                                const Text(
-                                  'Driver',
-                                  style: TextStyle(
-                                    fontFamily: 'KohSantepheap',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
+                            child: GestureDetector(
+                              onTap: () {
+                                context.pushNamed(Routes.driverScreen);
+                              },
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Image.asset('lib/core/assets/images/car.png'),
+                                  const Spacer(),
+                                  const Text(
+                                    'Driver',
+                                    style: TextStyle(
+                                      fontFamily: 'KohSantepheap',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -285,22 +291,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Image.asset(
-                                      'lib/core/assets/images/profile.png'),
-                                  const Spacer(),
-                                  const Text(
-                                    'Your Profile',
-                                    style: TextStyle(
-                                      fontFamily: 'KohSantepheap',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.pushNamed(Routes.profileeScreen);
+                                },
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Image.asset(
+                                        'lib/core/assets/images/profile.png'),
+                                    const Spacer(),
+                                    const Text(
+                                      'Your Profile',
+                                      style: TextStyle(
+                                        fontFamily: 'KohSantepheap',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             )),
                         Container(

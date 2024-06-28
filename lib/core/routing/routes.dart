@@ -15,4 +15,6 @@ class Routes {
  static const String mapscreen='/mapscreen';
  static const String qrScreen='/Qr';
  static const String webViewPage='/WebViewPage';
+ static const String profileeScreen='/profileeScreen';
+ static const String driverScreen='/driverView';
 }

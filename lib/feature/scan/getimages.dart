@@ -80,17 +80,26 @@ class _ImagePickerDemoState extends State<ImagePickerDemo> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.grey[800],
+            size: 30,
+            color: Colors.white,
           ),
           onPressed: () => context.pop(),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.camera_alt),
+            icon: const Icon(
+              Icons.camera_alt_outlined,
+              size: 30,
+              color: Colors.white,
+            ),
             onPressed: () => _pickImage(ImageSource.camera),
           ),
           IconButton(
-            icon: const Icon(Icons.image),
+            icon: const Icon(
+              Icons.image,
+              size: 30,
+              color: Colors.white,
+            ),
             onPressed: () => _pickImage(ImageSource.gallery),
           ),
         ],
@@ -99,8 +108,8 @@ class _ImagePickerDemoState extends State<ImagePickerDemo> {
         title: Text(
           'Detect Images',
           style: TextStyle(
-              color: Colors.grey[800],
-              fontFamily: 'Merriweather',
+              color: Colors.white,
+              fontFamily: 'Koh',
               fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.teal, // تغيير لون شريط التطبيق

@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_final_fields, prefer_const_declarations
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_tts/flutter_tts.dart';
 
 class ChatPage extends StatefulWidget {
   static const routeName = '/chat';
@@ -14,10 +14,20 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   final TextEditingController _chatController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final FlutterTts _flutterTts = FlutterTts();
   List<Map<String, dynamic>> _chatHistory = [];
+  bool _isSpeaking = false;
+
+  @override
+  void dispose() {
+    _chatController.dispose();
+    _scrollController.dispose();
+    _flutterTts.stop();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +41,6 @@ class _ChatPageState extends State<ChatPage> {
       body: Stack(
         children: [
           SizedBox(
-            //get max height
             height: MediaQuery.of(context).size.height - 160,
             child: ListView.builder(
               itemCount: _chatHistory.length,
@@ -41,8 +50,8 @@ class _ChatPageState extends State<ChatPage> {
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return Container(
-                  padding:
-                      const EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(
+                      left: 14, right: 14, top: 10, bottom: 10),
                   child: Align(
                     alignment: (_chatHistory[index]["isSender"]
                         ? Alignment.topRight
@@ -162,7 +171,17 @@ class _ChatPageState extends State<ChatPage> {
                 ],
               ),
             ),
-          )
+          ),
+          if (_isSpeaking)
+            Positioned(
+              bottom: 100,
+              left: MediaQuery.of(context).size.width / 2 - 25,
+              child: Icon(
+                Icons.volume_up,
+                size: 50,
+                color: Colors.redAccent,
+              ),
+            ),
         ],
       ),
     );
@@ -189,10 +208,12 @@ class _ChatPageState extends State<ChatPage> {
 
     final response = await http.post(uri, body: jsonEncode(request));
 
+    String answer = json.decode(response.body)["candidates"][0]["content"];
+
     setState(() {
       _chatHistory.add({
         "time": DateTime.now(),
-        "message": json.decode(response.body)["candidates"][0]["content"],
+        "message": answer,
         "isSender": false,
       });
     });
@@ -200,5 +221,23 @@ class _ChatPageState extends State<ChatPage> {
     _scrollController.jumpTo(
       _scrollController.position.maxScrollExtent,
     );
+
+    _speak(answer);
+  }
+
+  Future<void> _speak(String text) async {
+    setState(() {
+      _isSpeaking = true;
+    });
+
+    await _flutterTts.setLanguage("en-US");
+    await _flutterTts.setPitch(1.0);
+    await _flutterTts.speak(text);
+
+    _flutterTts.setCompletionHandler(() {
+      setState(() {
+        _isSpeaking = false;
+      });
+    });
   }
 }

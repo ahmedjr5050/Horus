@@ -29,9 +29,9 @@ class OnBoard extends StatelessWidget {
                     curve: Curves.bounceIn,
                     duration: 2.seconds,
                   ),
-                  // FadeEffect(duration: 2.seconds),
-                  // ScaleEffect(duration: 500.ms),
-                  // MoveEffect(duration: 1000.ms),
+                  FadeEffect(duration: 2.seconds),
+                  ScaleEffect(duration: 500.ms),
+                  MoveEffect(duration: 1000.ms),
                 ],
                 child: Text(
                   'HORUS GUIDE',

@@ -1,8 +1,7 @@
-// ignore_for_file: prefer_collection_literals, avoid_print, unnecessary_null_comparison
-
-import 'dart:typed_data';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -18,9 +17,10 @@ class _MapScreenState extends State<MapScreen> {
   GoogleMapController? _controller;
   LocationData? _locationData;
   LatLng photomarketLocation = const LatLng(
-      30.628484217416954, 31.319353635617006); // Photomarket location
+      30.04131686121775, 31.222822700130997); // Photomarket location
   late BitmapDescriptor customMarkerIcon; // Custom marker icon
   double customMarkerSize = 50.0; // Size of the custom marker icon
+  Polyline? _polyline; // Polyline between user location and photomarket
 
   @override
   void initState() {
@@ -63,6 +63,10 @@ class _MapScreenState extends State<MapScreen> {
         print(_locationData!.latitude);
         print(_locationData!.longitude);
         _updateMap(_locationData!.latitude!, _locationData!.longitude!);
+        _updatePolyline(); // Update polyline when location is obtained
+      });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showBottomSheet(context);
       });
     }
   }
@@ -80,6 +84,22 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
+  void _updatePolyline() {
+    if (_locationData != null) {
+      setState(() {
+        _polyline = Polyline(
+          polylineId: const PolylineId('user_to_photomarket'),
+          points: [
+            LatLng(_locationData!.latitude!, _locationData!.longitude!),
+            photomarketLocation,
+          ],
+          color: Colors.blue,
+          width: 5,
+        );
+      });
+    }
+  }
+
   Future<BitmapDescriptor> _createCustomMarkerBitmap(
       String imageAssetPath) async {
     ByteData byteData = await rootBundle.load(imageAssetPath);
@@ -88,11 +108,105 @@ class _MapScreenState extends State<MapScreen> {
     return BitmapDescriptor.fromBytes(byteList);
   }
 
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+          bottom: Radius.circular(20),
+        ),
+      ),
+      context: context,
+      builder: (context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          height: 300,
+          width: 350,
+          child: ListView(
+            children: [
+              _buildListTile(
+                context,
+                'lib/core/assets/images/upber.png',
+                'Uber',
+                'https://play.google.com/store/apps/details?id=com.ubercab&hl=ar',
+              ),
+              _buildListTile(
+                context,
+                'lib/core/assets/images/didi.jpg',
+                'Didi',
+                'https://play.google.com/store/apps/details?id=com.didiglobal.passenger&hl=ar',
+              ),
+              _buildListTile(
+                context,
+                'lib/core/assets/images/indrive.png',
+                'InDriver',
+                'https://play.google.com/store/apps/details?id=sinet.startup.inDriver&hl=ar',
+              ),
+              _buildListTile(
+                context,
+                'lib/core/assets/images/carem.jpg',
+                'Careem',
+                'https://play.google.com/store/apps/details?id=com.careem.acma',
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildListTile(
+      BuildContext context, String imagePath, String title, String url) {
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(5.0),
+        leading: Image.asset(imagePath),
+        title: Text(title),
+        onTap: () {
+          _launchURL(url);
+        },
+      ),
+    );
+  }
+
+  void _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Location'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.drive_eta, color: Colors.black, size: 33),
+            onPressed: () {
+              _showBottomSheet(context);
+            },
+          ),
+        ],
       ),
       body: GoogleMap(
         initialCameraPosition: const CameraPosition(
@@ -125,11 +239,13 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   icon: customMarkerIcon != null
                       ? customMarkerIcon
-                      : BitmapDescriptor
-                          .defaultMarker, // Use the custom marker icon
+                      : BitmapDescriptor.defaultMarker,
                 ),
               ])
             : Set<Marker>.identity(),
+        polylines: _polyline != null
+            ? Set<Polyline>.of([_polyline!])
+            : Set<Polyline>.identity(),
       ),
     );
   }
