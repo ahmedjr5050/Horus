@@ -40,49 +40,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Colors.white, // Match the background color
         title: Text('Profile'),
       ),
-      body: userData == null
-          ? Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  buildProfileField('First Name', userData!['firstName']),
-                  buildProfileField('Last Name', userData!['lastName']),
-                  buildProfileField('Email', userData!['email']),
-                  buildProfileField('Phone Number', userData!['phone']),
-                  SizedBox(height: 50),
-                  Center(
-                    child: MaterialButton(
-                        height: 50,
-                        minWidth: 200,
-                        padding: EdgeInsets.all(20.0),
-                        splashColor: Colors.transparent,
-                        color: Colors.amber,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        onPressed: () {
-                          _auth.signOut();
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
-                            (Route<dynamic> route) => false,
-                          );
-                        },
-                        child: Text(
-                          'Logout',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Koh',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22),
-                        )),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (userData == null)
+              Center(
+                child: Text(
+                  'No Data Available',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              )
+            else ...[
+              buildProfileField('First Name', userData!['firstName']),
+              buildProfileField('Last Name', userData!['lastName']),
+              buildProfileField('Email', userData!['email']),
+              buildProfileField('Phone Number', userData!['phone']),
+            ],
+            Spacer(),
+            Center(
+              child: MaterialButton(
+                height: 50,
+                minWidth: 200,
+                padding: EdgeInsets.all(20.0),
+                splashColor: Colors.transparent,
+                color: Colors.amber,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                onPressed: () {
+                  _auth.signOut();
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    (Route<dynamic> route) => false,
+                  );
+                },
+                child: Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Koh',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
                   ),
-                ],
+                ),
               ),
             ),
+            SizedBox(height: 20),
+          ],
+        ),
+      ),
     );
   }
 
